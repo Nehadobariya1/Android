@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.ContextMenu
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
@@ -154,6 +155,36 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menu?.add(101,1001,1,"Add Contact")
+        menu?.add(102,1002,2,"Edit")
+        menu?.add(103,1003,3,"Setting")
+
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId)
+        {
+            1001-> {
+                val intent = Intent(Intent.ACTION_INSERT).apply {
+                    type = ContactsContract.RawContacts.CONTENT_TYPE
+                }
+                startActivityForResult(intent, 12)
+            }
+            1002->Toast.makeText(applicationContext,"Edit",Toast.LENGTH_LONG).show()
+            1003->{
+                val intent = Intent(this,ContactDetailActivity::class.java)
+                startActivity(intent)
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
